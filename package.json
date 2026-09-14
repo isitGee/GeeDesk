@@ -7,10 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-<<<<<<< HEAD
     "validate": "tsx scripts/validate-scenarios.ts",
-=======
->>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
     "preview": "vite preview"
   },
   "dependencies": {
@@ -29,10 +26,7 @@
     "oxlint": "^1.81.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
-<<<<<<< HEAD
     "tsx": "^4.23.13",
-=======
->>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
   }
