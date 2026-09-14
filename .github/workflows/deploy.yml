@@ -24,7 +24,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+<<<<<<< HEAD
       - run: npm run validate
+=======
+>>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

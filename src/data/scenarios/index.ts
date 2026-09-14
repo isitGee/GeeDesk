@@ -1,4 +1,5 @@
 import type { Scenario } from "../../types/scenario";
+<<<<<<< HEAD
 
 import { net1042 } from "./net-1042";
 import { net1043 } from "./net-1043";
@@ -39,6 +40,11 @@ export const scenarios: Scenario[] = [
   gen4001, gen4002, gen4003, gen4004,
   sec5001, sec5002,
 ];
+=======
+import { net1042 } from "./net-1042";
+
+export const scenarios: Scenario[] = [net1042];
+>>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
 
 export function getScenario(id: string): Scenario | undefined {
   return scenarios.find((s) => s.id === id);

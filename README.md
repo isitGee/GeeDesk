@@ -38,6 +38,7 @@ The Vite config uses relative asset paths (`base: './'`) and the app uses a hash
   - `store.tsx` — the only place these pure functions meet React state (a `Context` + `useState`).
 - **`src/components/`, `src/pages/`** — UI that renders whatever scenario is active. No ticket-specific logic lives here.
 
+<<<<<<< HEAD
 ## Current scope (V1, content-complete)
 
 - Done: 25 complete, scored scenarios across five categories — Networking (9), Windows (6), Hardware (4), General IT (4), and Security (2) — all running on the same engine with no ticket-specific code.
@@ -51,6 +52,14 @@ The Vite config uses relative asset paths (`base: './'`) and the app uses a hash
 1. Copy the shape of any file in `src/data/scenarios/` (e.g. `net-1042.ts`).
 2. Add one line to `src/data/scenarios/index.ts`.
 3. Run `npm run validate` — it will tell you immediately if an evidence ID, terminal output ID, or verification target doesn't line up, before you ever open the browser.
+=======
+## Current scope (V1, in progress)
+
+- Done: one complete, polished scenario end-to-end (`NET-1042`) — ticket -> investigate -> diagnose -> fix -> verify -> score.
+- Done: deterministic scoring across six categories, with hint costs and an efficiency penalty for unnecessary actions.
+- Done: XP, levels, streaks, and four achievements, all persisted locally.
+- Next milestone: four more scenarios on the same engine (per the spec's "no ticket-specific engine logic" rule), then a weak-skill / random-incident practice mode.
+>>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
 
 ## Explicitly out of scope for V1
 

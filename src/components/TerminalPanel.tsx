@@ -89,7 +89,11 @@ export function TerminalPanel({ history, availableCommands, onRun, disabled }: T
           disabled={disabled}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+<<<<<<< HEAD
           placeholder={disabled ? "Terminal closed for this ticket" : `e.g. ${availableCommands[0] ?? "help"}`}
+=======
+          placeholder={disabled ? "Terminal closed for this ticket" : "e.g. ipconfig"}
+>>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
           spellCheck={false}
           autoComplete="off"
           className="flex-1 bg-transparent font-mono text-[12.5px] text-white placeholder:text-white/25 focus:outline-none disabled:cursor-not-allowed"
