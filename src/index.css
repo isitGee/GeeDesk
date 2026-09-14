@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, monospace;
+
+  --color-bg: #F5F9FF;
+  --color-bg-deep: #EAF1FB;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #EEF3FA;
+  --color-border: #E8EEF7;
+  --color-border-strong: #D3E1F2;
+
+  --color-primary: #0067C0;
+  --color-primary-dark: #00508F;
+  --color-primary-soft: #E4F0FC;
+
+  --color-text: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #8695AB;
+
+  --color-success: #16A34A;
+  --color-success-soft: #E6F6EC;
+  --color-warning: #D97706;
+  --color-warning-soft: #FDF1E1;
+  --color-critical: #DC2626;
+  --color-critical-soft: #FCEAEA;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(0, 103, 192, 0.08), transparent),
+    radial-gradient(900px 480px at -10% 10%, rgba(0, 103, 192, 0.05), transparent),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* thin, quiet scrollbars for the terminal / evidence panes */
+.thin-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 8px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

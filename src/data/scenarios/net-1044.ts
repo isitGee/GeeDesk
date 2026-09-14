@@ -1,0 +1,132 @@
+import type { Scenario } from "../../types/scenario";
+
+export const net1044: Scenario = {
+  id: "net-1044",
+  ticketNumber: "NET-1044",
+  title: "Can't reach the shared drive across the office",
+  category: "Networking",
+  difficulty: "intermediate",
+  user: { name: "Priya Nair", role: "Financial Analyst", department: "Finance" },
+  ticketDescription:
+    "I can print to the printer next to my desk and browse the internet fine, but I can't open the shared Finance drive that's on a server on the other side of the office.",
+  symptoms: [
+    "Local printer and internet both work fine",
+    "Finance file server times out from her PC specifically",
+    "A coworker two desks away has no problem reaching the same server",
+  ],
+  hiddenFault:
+    "Priya's subnet mask was accidentally set to 255.255.255.192 (a /26) instead of the office standard 255.255.255.0 (a /24). Her PC now thinks addresses actually on the same subnet — like the file server — are remote, and routes them incorrectly.",
+  availableCommands: ["ipconfig", "ping", "nslookup", "tracert", "arp", "netstat"],
+
+  terminalOutputs: [
+    { id: "out-ipconfig", command: "ipconfig", match: ["ipconfig", "ipconfig /all"], phase: "pre",
+      isKeyCommand: true, revealsEvidence: ["ev-bad-mask"],
+      output: [
+        "Ethernet adapter Ethernet:",
+        "   IPv4 Address. . . . . . . . . . . : 192.168.10.45",
+        "   Subnet Mask . . . . . . . . . . . : 255.255.255.192",
+        "   Default Gateway . . . . . . . . . : 192.168.10.1",
+      ] },
+    { id: "out-ipconfig-post", command: "ipconfig", match: ["ipconfig", "ipconfig /all"], phase: "post",
+      output: [
+        "Ethernet adapter Ethernet:",
+        "   IPv4 Address. . . . . . . . . . . : 192.168.10.45",
+        "   Subnet Mask . . . . . . . . . . . : 255.255.255.0",
+        "   Default Gateway . . . . . . . . . : 192.168.10.1",
+      ] },
+    { id: "out-ping-gw", command: "ping", match: ["ping 192.168.10.1"],
+      revealsEvidence: ["ev-gateway-ok"],
+      output: ["Pinging 192.168.10.1 with 32 bytes of data:", "Reply from 192.168.10.1: bytes=32 time=1ms TTL=64", "Reply from 192.168.10.1: bytes=32 time=1ms TTL=64"] },
+    { id: "out-ping-ext", command: "ping", match: ["ping 8.8.8.8"],
+      revealsEvidence: ["ev-internet-ok"],
+      output: ["Pinging 8.8.8.8 with 32 bytes of data:", "Reply from 8.8.8.8: bytes=32 time=15ms TTL=115", "Reply from 8.8.8.8: bytes=32 time=14ms TTL=115"] },
+    { id: "out-ping-fs-pre", command: "ping", match: ["ping 192.168.10.130"], phase: "pre",
+      isKeyCommand: true, revealsEvidence: ["ev-fileserver-unreachable"],
+      output: ["Pinging 192.168.10.130 with 32 bytes of data:", "Request timed out.", "Request timed out.", "Request timed out.", "", "Ping statistics for 192.168.10.130:", "    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)"] },
+    { id: "out-ping-fs-post", command: "ping", match: ["ping 192.168.10.130"], phase: "post",
+      output: ["Pinging 192.168.10.130 with 32 bytes of data:", "Reply from 192.168.10.130: bytes=32 time=2ms TTL=64", "Reply from 192.168.10.130: bytes=32 time=1ms TTL=64"] },
+    { id: "out-arp", command: "arp", match: ["arp -a", "arp"],
+      output: ["Interface: 192.168.10.45 --- 0xb", "  Internet Address      Physical Address      Type", "  192.168.10.1           aa-14-ff-2b-10-01     dynamic", "  192.168.10.20          aa-14-ff-2b-10-14     dynamic"] },
+    { id: "out-tracert", command: "tracert", match: ["tracert 192.168.10.130"],
+      output: ["Tracing route to 192.168.10.130 over a maximum of 30 hops:", "  1    *        *        *     Request timed out."] },
+    { id: "out-nslookup", command: "nslookup", match: ["nslookup google.com"],
+      output: ["Server:  dns1.geedesk.local", "Address:  192.168.10.10", "", "Non-authoritative answer:", "Name:    google.com", "Address:  142.250.72.14"] },
+    { id: "out-netstat", command: "netstat", match: ["netstat"],
+      output: ["Active Connections", "  TCP    192.168.10.45:52001    192.168.10.10:53      ESTABLISHED"] },
+  ],
+
+  evidence: [
+    { id: "ev-ticket-summary", category: "user-report", label: "Ticket summary",
+      detail: "Priya can print locally and browse the internet, but can't reach the Finance file server." },
+    { id: "ev-bad-mask", category: "network", isKey: true, label: "Non-standard subnet mask",
+      detail: "Her subnet mask is 255.255.255.192, not the office-standard 255.255.255.0 — a much smaller slice of the network." },
+    { id: "ev-gateway-ok", category: "network", label: "Gateway reachable",
+      detail: "The default gateway responds fine — the link itself is healthy." },
+    { id: "ev-internet-ok", category: "network", label: "Internet reachable",
+      detail: "External sites work fine, so this isn't a general outage." },
+    { id: "ev-fileserver-unreachable", category: "network", isKey: true, label: "File server times out",
+      detail: "The Finance file server, on the same physical subnet, times out completely for her — but only her." },
+    { id: "ev-coworker-fine", category: "conversation", isKey: true, label: "Coworker unaffected",
+      detail: "A coworker two desks away reaches the same file server with no problem." },
+    { id: "ev-recent-config-push", category: "conversation", label: "Recent settings change",
+      detail: "IT mentioned 'standardizing network settings' on some machines this morning." },
+    { id: "ev-local-printer-works", category: "conversation", label: "Local printer still works",
+      detail: "Her nearby printer, on a similarly-addressed device, still works fine." },
+  ],
+  defaultEvidenceIds: ["ev-ticket-summary"],
+
+  conversationQuestions: [
+    { id: "q-coworker", prompt: "Can anyone else on your floor reach the Finance drive right now?",
+      response: "\"Yeah, the guy next to me just checked — no problem for him.\"",
+      revealsEvidence: ["ev-coworker-fine"], isKeyQuestion: true },
+    { id: "q-changes", prompt: "Did anything change on your machine recently?",
+      response: "\"IT said something about 'standardizing network settings' on some laptops this morning.\"",
+      revealsEvidence: ["ev-recent-config-push"], isKeyQuestion: true },
+    { id: "q-printer", prompt: "Can you still print to your local printer?",
+      response: "\"Yes, printing's totally fine.\"", revealsEvidence: ["ev-local-printer-works"] },
+  ],
+
+  keyConcepts: [
+    "Reading a subnet mask and recognizing when it doesn't match the rest of the network",
+    "Understanding that a too-narrow mask makes local addresses look remote",
+    "Using a working coworker on the same subnet to isolate a per-machine misconfiguration",
+  ],
+
+  diagnosisOptions: [
+    { id: "diag-mask", isCorrect: true,
+      label: "Her subnet mask is misconfigured, so her PC treats some local addresses as if they were remote",
+      explanation: "Correct. A 255.255.255.192 mask carves her into a much smaller slice of 192.168.10.0/24 than everyone else, so addresses like the file server look 'off-network' to her machine specifically." },
+    { id: "diag-server-down", isCorrect: false, label: "The Finance file server itself is down",
+      explanation: "Her coworker reaches the same server with no issue at the same time — the server is up." },
+    { id: "diag-firewall", isCorrect: false, label: "A firewall rule is blocking her specifically",
+      explanation: "A targeted firewall rule wouldn't also explain a non-standard subnet mask showing up in ipconfig — the addressing itself is the anomaly here." },
+    { id: "diag-dns", isCorrect: false, label: "DNS can't resolve the file server's name",
+      explanation: "Pinging the server's raw IP address still fails, which rules out name resolution as the cause." },
+  ],
+
+  resolutionOptions: [
+    { id: "res-fix-mask", isCorrect: true, label: "Correct her subnet mask back to 255.255.255.0",
+      explanation: "This restores her PC's view of the network to match everyone else's, so local addresses route correctly again." },
+    { id: "res-static-route", isCorrect: false, label: "Add a static route to the file server",
+      explanation: "This could mask the symptom for one destination, but leaves the real misconfiguration in place and would break again for any other local address outside her narrow mask." },
+    { id: "res-restart-pc", isCorrect: false, label: "Restart her PC",
+      explanation: "A restart doesn't change a manually (or incorrectly pushed) configured subnet mask." },
+    { id: "res-replace-cable", isCorrect: false, label: "Replace her network cable",
+      explanation: "The gateway and internet both work fine over the same cable — this isn't a physical layer problem." },
+  ],
+
+  verification: {
+    prompt: "Confirm she can now reach the Finance file server.",
+    expectedOutputId: "out-ping-fs-post",
+    successMessage: "The file server now responds normally — her subnet mask matches the rest of the office again.",
+  },
+
+  scoring: { investigationMax: 20, evidenceMax: 15, diagnosisMax: 25, resolutionMax: 20, verificationMax: 10, efficiencyMax: 10, hintPenalty: 5, freeActionAllowance: 3 },
+  hints: [
+    { id: "hint-1", cost: 5, text: "Compare her subnet mask in ipconfig to what you'd expect for this network. Does it look right?" },
+    { id: "hint-2", cost: 5, text: "Ask a nearby coworker whether they can reach the same server right now." },
+  ],
+  skills: ["networking", "ip-addressing", "troubleshooting-methodology"],
+  tags: ["intermediate", "subnetting", "windows"],
+  estimatedMinutes: 10,
+};
