@@ -11,7 +11,6 @@ export type TerminalCommandName =
   | "tracert"
   | "arp"
   | "netstat"
-<<<<<<< HEAD
   | "netsh"
   | "net"
   | "whoami"
@@ -23,8 +22,6 @@ export type TerminalCommandName =
   | "sfc"
   | "driverquery"
   | "powercfg"
-=======
->>>>>>> af80144fee2dba3552a1ea0d5e3fdccb9fd6ce58
   | "help";
 
 export interface ScenarioUser {
