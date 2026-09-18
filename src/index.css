@@ -5,6 +5,30 @@
   --font-sans: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, monospace;
 
+  --color-bg: var(--color-bg);
+  --color-bg-deep: var(--color-bg-deep);
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-soft: var(--color-primary-soft);
+
+  --color-text: var(--color-text);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-success: var(--color-success);
+  --color-success-soft: var(--color-success-soft);
+  --color-warning: var(--color-warning);
+  --color-warning-soft: var(--color-warning-soft);
+  --color-critical: var(--color-critical);
+  --color-critical-soft: var(--color-critical-soft);
+}
+
+:root {
   --color-bg: #F5F9FF;
   --color-bg-deep: #EAF1FB;
   --color-surface: #FFFFFF;
@@ -28,6 +52,30 @@
   --color-critical-soft: #FCEAEA;
 }
 
+.dark {
+  --color-bg: #090E17;
+  --color-bg-deep: #05080F;
+  --color-surface: #111A2E;
+  --color-surface-muted: #18243E;
+  --color-border: #1E2D4A;
+  --color-border-strong: #2B3E64;
+
+  --color-primary: #388BFD;
+  --color-primary-dark: #1F6FEB;
+  --color-primary-soft: #162B4D;
+
+  --color-text: #F0F6FC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+
+  --color-success: #22C55E;
+  --color-success-soft: #0E2E1B;
+  --color-warning: #F59E0B;
+  --color-warning-soft: #2F2107;
+  --color-critical: #EF4444;
+  --color-critical-soft: #301014;
+}
+
 html, body, #root {
   height: 100%;
 }
@@ -42,6 +90,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.dark body {
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(56, 139, 253, 0.12), transparent),
+    radial-gradient(900px 480px at -10% 10%, rgba(56, 139, 253, 0.06), transparent),
+    var(--color-bg);
+}
+
 ::selection {
   background: var(--color-primary);
   color: white;
@@ -49,19 +104,28 @@ body {
 
 /* thin, quiet scrollbars for the terminal / evidence panes */
 .thin-scroll::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 .thin-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 .thin-scroll::-webkit-scrollbar-thumb {
   background: var(--color-border-strong);
-  border-radius: 8px;
+  border-radius: 6px;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.dark .glass {
+  background: rgba(17, 26, 46, 0.82);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
 }

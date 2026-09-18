@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "test": "tsx scripts/run-tests.ts",
     "validate": "tsx scripts/validate-scenarios.ts",
     "preview": "vite preview"
   },

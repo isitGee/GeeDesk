@@ -1,57 +1,115 @@
-# GeeDesk — IT Troubleshooting Simulator
+# GeeDesk — Enterprise IT Troubleshooting & Simulation Platform
 
-GeeDesk turns realistic IT helpdesk tickets into an interactive troubleshooting game. Investigate an incident with a simulated terminal and a chat with the affected user, submit a diagnosis, apply a fix, verify it actually worked, and get a deterministic, evidence-based score.
+**GeeDesk** is an interactive IT support and help-desk troubleshooting simulator created by **George Mwanga**.
 
-**Zero backend. Zero paid APIs. Zero accounts.** Everything runs client-side; progress is saved in your browser's `localStorage`.
+It transforms realistic IT helpdesk incidents into a connected, immersive diagnostic training environment. Rather than clicking through canned options, technicians must investigate the problem, gather objective evidence, use simulated Windows and networking tools, interview affected employees, formulate root-cause diagnoses, execute remediation, verify operational recovery, and author structured ITIL documentation.
 
-## Quick start
+**Zero backend. Zero paid APIs. Zero accounts.** Everything runs client-side; progress is saved in your browser's `localStorage` and deploys seamlessly to GitHub Pages.
+
+---
+
+## The Core Technician Workflow
+
+$$\text{Incident Intake} \longrightarrow \text{User Scoping} \longrightarrow \text{Multi-Tool Triage} \longrightarrow \text{Root-Cause Diagnosis} \longrightarrow \text{Remediation} \longrightarrow \text{Verification} \longrightarrow \text{ITIL Documentation} \longrightarrow \text{Performance Audit}$$
+
+---
+
+## Key Features & Upgrades
+
+### 1. Enterprise Service Desk & Queue Management
+- **Professional Incident Queue**: Filterable and searchable by ticket ID, requester, department, symptom, device hostname, IP address, priority (Critical, High, Medium, Low), difficulty, and status.
+- **Queue Views**: Instant toggle between an **Enterprise Table / Grid Queue** and responsive **Card Grid View**.
+- **Service Desk Metrics**: Real-time tracking of active incidents, SLA compliance targets, and first-contact resolution rates.
+
+### 2. Multi-Tool Connected Investigation Workspace
+The central workspace equips technicians with an array of realistic, deterministic diagnostic tools:
+- 💻 **Simulated Windows Terminal (PowerShell / CMD)**: Interactive CLI supporting `ipconfig (/all, /release, /renew, /flushdns)`, `ping`, `nslookup`, `tracert`, `arp -a`, `netstat -ano`, `route print`, `whoami`, `gpresult`, `sc`, `net`, `tasklist`, `systeminfo`, and `sfc /scannow`.
+- 📋 **Event Viewer (`eventvwr.msc`)**: Filter and inspect System, Application, and Security logs with real Windows Event IDs (e.g., Event 1014 DNS timeout, Event 7034 Service crash, Event 4740 Account lockout, Event 4199 IP conflict).
+- ⚙️ **Services Manager (`services.msc`)**: Inspect background Windows services (`Spooler`, `Dnscache`, `Dhcp`, `LanmanWorkstation`) with functional **Start**, **Stop**, and **Restart** controls that dynamically update live simulation state.
+- 🔌 **Device Manager (`devmgmt.msc`)**: Categorized hardware tree with real device status error codes (Code 10, Code 22 disabled, Code 43 stopped) and driver details.
+- 🌐 **Network Adapter Configuration (`ncpa.cpl`)**: Visual IPv4 properties dialog (DHCP vs Static IP, Subnet Mask, Gateway, Primary/Secondary DNS) and 802.11ax Wi-Fi link parameters.
+- 👤 **Active Directory Inspector (`dsa.msc`)**: Domain user account status, Bad Password Count tracking, group memberships, and an interactive **Unlock Account** action.
+- 🗺️ **Visual Topology & Packet Trace Inspector**: Interactive hop-by-hop diagnostic path tracing packets from `[Endpoint] -> [Switch] -> [Gateway Router] -> [WAN / DNS]`.
+
+### 3. Connected Simulation State & Dynamic Dependencies
+Actions exert real consequences on the simulated machine:
+- Restarting the stopped Print Spooler in `services.msc` updates the process list in `tasklist`, enables print queue dispatch, and updates terminal query state.
+- Correcting IP/VLAN configurations enables successful DHCP renewals and subsequent DNS queries.
+- Host quarantine severs active foreign C2 network sockets in `netstat`.
+
+### 4. Realistic User Personas & Scoping Dialogue
+- Every ticket requester has a unique profile: role, department, desk location, contact extension, technical knowledge level (Novice, Intermediate, Power User), and communication style.
+- Technicians are rewarded for asking targeted scoping questions (*"When did it start?"*, *"Are coworkers affected?"*, *"Did any hardware change?"*) before opening tools or guessing.
+
+### 5. Cisco / CCNA & CompTIA Networking Focus
+Dedicated emphasis on Layer 1 through Layer 7 enterprise networking:
+- **DHCP DORA Process** and 169.254.x.x APIPA resolution
+- **DNS Resolution Timeouts**, local vs external resolvers, and cache poisoning
+- **VLAN Switchport Mismatches** and 802.1Q port tagging
+- **Subnet Mask Mismatches** and default gateway routing failures
+- **Duplicate IP Address & ARP Collisions**
+- **SFP Fiber Optic Degradation** & physical Layer 1 CRC error analysis
+
+### 6. Searchable Knowledge Base & SOP Repository
+12 comprehensive Standard Operating Procedures (SOPs) accessible directly from the ticket workspace or dedicated library:
+- `SOP-101`: Troubleshooting DNS Name Resolution Failures
+- `SOP-102`: Diagnosing DHCP Failures & APIPA Autoconfiguration
+- `SOP-103`: VLAN Configuration, Access vs Trunk Ports, and Mismatches
+- `SOP-104`: Diagnosing Windows Print Spooler (`spoolsv.exe`) Crashes
+- `SOP-105`: Active Directory Account Lockout Investigation & Event 4740
+- `SOP-106`: Windows Network Stack Diagnostics & Reset Procedures
+- `SOP-107`: Default Gateway & Routing Table Troubleshooting
+- `SOP-108`: Enterprise 802.1X Wi-Fi Authentication Failures
+- `SOP-109`: Managing Windows Services (`sc`, `net start`, `services.msc`)
+- `SOP-110`: Device Manager Error Codes & Hardware Driver Triage
+- `SOP-111`: SOC Escalation & Rapid Host Containment Protocols
+- `SOP-112`: ITIL Help Desk Documentation Standards & Professional Work Notes
+
+### 7. Structured ITIL Work Notes & Documentation Scoring
+- After resolving an incident, technicians author formal closure notes across 5 sections: Problem Summary, Investigation Performed, Root Cause Identified, Resolution Applied, and Preventive Advice.
+- An **"Auto-assemble findings"** utility assists technicians in compiling diagnostic evidence into standard work orders.
+
+### 8. Professional Escalation Decisions
+- Realistic incidents where escalation is the correct professional decision (e.g., Core switch fiber optic failure, active PowerShell ransomware beacon requiring SOC containment).
+- Correct escalation judgment to Tier 2 Desktop, Network Operations (NOC), or Security Operations (SOC) is rewarded with full score honors.
+
+### 9. Learning Mode vs Challenge Mode
+- **Learning Mode**: Step-by-step diagnostic checklists, suggested tools, concept overviews, and low hint penalties.
+- **Challenge Mode**: Strict SLA timer pressure, minimal hints with heavy point deductions, and rigorous documentation evaluation.
+
+### 10. Technician Career Progression
+- 5 Career Tiers: **IT Support Trainee** $\rightarrow$ **Junior IT Support Technician** $\rightarrow$ **IT Support Technician II** $\rightarrow$ **Senior Helpdesk Analyst** $\rightarrow$ **Systems & Network Specialist**.
+- Competency matrix tracking 6 core domains: *Networking*, *Windows Administration*, *Hardware & Peripherals*, *Cybersecurity*, *Troubleshooting Methodology*, and *Communication & Documentation*.
+- 10 Career Milestones and Certifications.
+
+---
+
+## Quick Start
 
 ```bash
-npm install
+# Clone the repository
+git clone https://github.com/isitGee/GeeDesk.git
+cd GeeDesk
+
+# Install dependencies
+npm ci
+
+# Start local development server
 npm run dev
 ```
 
-Then open the printed local URL. To build a static production bundle:
+Build a static production bundle for deployment:
 
 ```bash
-npm run build   # outputs to dist/
-npm run preview # serve the production build locally to sanity-check it
+npm run build      # Static bundle outputs to dist/
+npm run validate   # Automated scenario integrity verification
+npm run lint       # Code quality audit
 ```
 
-## Deploying for free
+---
 
-The Vite config uses relative asset paths (`base: './'`) and the app uses a hash router (`/#/tickets/...`), so the build in `dist/` works as-is from **any** static host or sub-path — no server rewrite rules needed.
+## Author & Acknowledgements
 
-- **GitHub Pages**: push this repo to GitHub, then enable Pages in the repo settings pointed at the included `.github/workflows/deploy.yml`, which builds and deploys `dist/` automatically on every push to `main`.
-- **Cloudflare Pages**: connect the repo, set build command `npm run build`, output directory `dist`.
-
-## How it's built
-
-- **React + TypeScript + Vite + Tailwind CSS v4** — built from `GeeDesk_Project_Specification`.
-- **`src/types/scenario.ts`** — the scenario data model. A ticket is pure data: environment, symptoms, hidden fault, terminal outputs, evidence, conversation, diagnosis/resolution options, a scoring rubric, and hints.
-- **`src/data/scenarios/`** — actual scenario content. Adding a new ticket means adding a new file here and one line in `index.ts` — nothing in the engine or UI needs to change.
-- **`src/game/`** — the engine. Pure, framework-free functions:
-  - `terminal.ts` — interprets simulated commands against scenario data (never touches a real shell).
-  - `engine.ts` — one pure function per player action (`runCommand`, `askQuestion`, `submitDiagnosis`, ...), each `(scenario, session) -> session`.
-  - `scoring.ts` — deterministic, testable scoring. No AI involved.
-  - `persistence.ts` — the `localStorage` read/write layer, XP, streaks, and achievements.
-  - `store.tsx` — the only place these pure functions meet React state (a `Context` + `useState`).
-- **`src/components/`, `src/pages/`** — UI that renders whatever scenario is active. No ticket-specific logic lives here.
-
-## Current scope (V1, content-complete)
-
-- Done: 25 complete, scored scenarios across five categories — Networking (9), Windows (6), Hardware (4), General IT (4), and Security (2) — all running on the same engine with no ticket-specific code.
-- Done: an automated data-integrity check (`npm run validate`) that verifies every scenario's cross-references — evidence IDs, terminal output IDs, exactly-one-correct-answer, verification targets — before it ever ships. Wired into the GitHub Actions build.
-- Done: deterministic scoring across six categories, with hint costs and an efficiency penalty for unnecessary actions.
-- Done: XP, levels, streaks, and four achievements, all persisted locally.
-- Next milestone: progression polish — a weak-skill practice mode and a "random incident" mode that pulls from the full 25-scenario pool, per the roadmap's V0.3.
-
-## Adding a new scenario
-
-1. Copy the shape of any file in `src/data/scenarios/` (e.g. `net-1042.ts`).
-2. Add one line to `src/data/scenarios/index.ts`.
-3. Run `npm run validate` — it will tell you immediately if an evidence ID, terminal output ID, or verification target doesn't line up, before you ever open the browser.
-
-## Explicitly out of scope for V1
-
-Accounts, a database, a backend, real AI calls, payments, and multiplayer — see the spec's non-goals. The architecture (`src/game/persistence.ts` in particular) is intentionally the seam where a future opt-in AI "coach" or a real backend could be added without touching the game engine.
+- **Created by**: George Mwanga
+- **Framework**: React 19, TypeScript, Vite, Tailwind CSS v4, Lucide Icons
+- **Design Inspiration**: Windows 11 Fluent UI, ITIL Service Desk Standards, Cisco CCNA Enterprise Architecture
